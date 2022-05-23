@@ -15,6 +15,16 @@ spring:
     password: Gwz@159244
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
+      stat-view-servlet: #配置监控页功能
+        enabled: true
+        login-username: admin
+        login-password: Gwz@159244
+        reset-enable: false
+
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+
       initialSize: 5
       minIdle: 5
       maxActive: 20
