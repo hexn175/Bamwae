@@ -43,4 +43,4 @@ server:
     key-alias: tomcat
     key-store-password: C2BV2Fny    #填写pfx-password.txt文件内的密码。
     key-store-type: PKCS12
-    key-store: src/main/resources/7776092_bamwae.cn.pfx    #您需要使用实际的证书名称替换domain_name.pfx。
+    key-store: src\main\resources\7776092_bamwae.cn.pfx    #您需要使用实际的证书名称替换domain_name.pfx。
