@@ -39,3 +39,5 @@ spring:
 # SSL配置
 server:
   port: 8082
+  servlet:
+    context-path: /yyy/
