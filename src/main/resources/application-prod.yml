@@ -38,7 +38,7 @@ spring:
     timeout: 10s
 # SSL配置
 server:
-  port: 8082    #HTTPS协议默认端口号为443，需要使用其他端口时，您可以在此处自定义。
+  port: 443    #HTTPS协议默认端口号为443，需要使用其他端口时，您可以在此处自定义。
   ssl:
     key-alias: tomcat
     key-store-password: C2BV2Fny    #填写pfx-password.txt文件内的密码。
