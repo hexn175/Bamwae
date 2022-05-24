@@ -38,5 +38,9 @@ public class UserController {
         System.out.println("分页查询结果："+page.getRecords());
         System.out.println("数据总数："+page.getTotal());
         return userService.selectUserById(id);
+
+
+
+        //测试
     }
 }
