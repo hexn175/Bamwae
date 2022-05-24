@@ -16,6 +16,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     UserMapper userMapper;
 
+//    JedisUtil jedisUtil;
+
     @Override
     public User login(String code) throws Exception{
         //请求地址
@@ -33,11 +35,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 System.out.println("更新sessionKey");
             }
         }
-        return user;
+        return wxUser;
     }
 
     @Override
     public User selectUserById(Integer id) {
+//        System.out.println(jedisUtil.get("test"));
         return userMapper.selectById(id);
     }
 
