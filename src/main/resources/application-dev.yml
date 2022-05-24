@@ -10,7 +10,7 @@ spring:
         enabled: true
   #  数据源druid
   datasource:
-    url: jdbc:mysql://123.56.124.177:3306
+    url: jdbc:mysql://123.56.124.177:3306/bamwae
     username: root
     password: Gwz@159244
     type: com.alibaba.druid.pool.DruidDataSource
@@ -49,3 +49,6 @@ spring:
 # SSL配置
 server:
   port: 8082
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
