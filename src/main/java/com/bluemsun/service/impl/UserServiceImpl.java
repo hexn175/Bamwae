@@ -26,6 +26,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String response = HttpClientUtil.getRequest(requestUrl);
         //格式化JSON数据
         User wxUser = JSONObject.parseObject(response, User.class);
+        System.out.println(wxUser);
+        System.out.println(response);
         //
         User user = userMapper.login(wxUser.getOpenId());
         if (user == null) {

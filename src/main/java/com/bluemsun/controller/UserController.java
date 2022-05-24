@@ -1,5 +1,6 @@
 package com.bluemsun.controller;
 
+
 import com.bluemsun.entity.User;
 import com.bluemsun.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
