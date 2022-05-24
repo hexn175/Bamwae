@@ -10,11 +10,21 @@ spring:
         enabled: true
   #  数据源druid
   datasource:
-    url: jdbc:mysql://123.56.124.177:3306
+    url: jdbc:mysql://123.56.124.177:3306/bamwae
     username: root
     password: Gwz@159244
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
+      stat-view-servlet: #配置监控页功能
+        enabled: true
+        login-username: admin
+        login-password: Gwz@159244
+        reset-enable: false
+
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+
       initialSize: 5
       minIdle: 5
       maxActive: 20
@@ -39,5 +49,6 @@ spring:
 # SSL配置
 server:
   port: 8082
-  servlet:
-    context-path: /yyy/
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
