@@ -3,6 +3,8 @@ package com.bluemsun.interceptor;
 import com.alibaba.fastjson.JSON;
 import com.bluemsun.utils.JWTUtil;
 import com.bluemsun.utils.JedisUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -10,13 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 //登录拦截器
+@Component
 public class LoginInterceptor implements HandlerInterceptor {
 
-    private final JedisUtil jedisUtil;
-
-    public LoginInterceptor(JedisUtil jedisUtil) {
-        this.jedisUtil = jedisUtil;
-    }
+    @Autowired
+    private JedisUtil jedisUtil;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
