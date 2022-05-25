@@ -3,11 +3,13 @@ spring:
   config:
     activate:
       on-profile: dev
+
   #  支持REST风格
   mvc:
     hiddenmethod:
       filter:
         enabled: true
+
   #  数据源druid
   datasource:
     url: jdbc:mysql://123.56.124.177:3306/bamwae
@@ -20,11 +22,9 @@ spring:
         login-username: admin
         login-password: Gwz@159244
         reset-enable: false
-
       web-stat-filter:
         enabled: true
         url-pattern: /*
-
       initialSize: 5
       minIdle: 5
       maxActive: 20
@@ -41,6 +41,7 @@ spring:
       maxPoolPreparedStatementPerConnectionSize: 20
       useGlobalDataSourceStat: true
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
   redis:
     password: Gwz@159244
     host: 123.56.124.177
@@ -52,9 +53,19 @@ spring:
         max-idle: 8
         max-wait: -1
         min-idle: 0
-# SSL配置
+
+#日志配置,输出到文本，
+#logging:
+#  config: classpath:logback-spring.xml
+#idea控制台默认日志级别修改
+# 指定输出日志的文件名，默认输出至当前项目目录下
+#  file:
+#    path: springboot.log
+
+# 端口配置
 server:
   port: 8082
 
+# mybatis-plus 配置
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml

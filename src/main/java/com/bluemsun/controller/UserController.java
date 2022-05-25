@@ -2,11 +2,17 @@ package com.bluemsun.controller;
 
 import com.bluemsun.entity.User;
 import com.bluemsun.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Controller
@@ -15,17 +21,30 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    Logger logger = LoggerFactory.getLogger(getClass());
 
     @ResponseBody
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public User login(String code) throws Exception {
-        User user = userService.login(code);
-        return user;
+    @PostMapping ( "/login")
+    public Map login(String code) throws Exception {
+        Map map = new HashMap();
+        Map resMap = userService.login(code);
+        if (resMap.get("user") != null) {
+            map.put("user", resMap.get("user"));
+            map.put("token", resMap.get("token"));
+            map.put("code",0);
+            map.put("msg","登陆成功");
+            return resMap;
+        } else {
+            map.put("code", 1);
+            map.put("msg", "登录失败");
+        }
+        return map;
     }
 
     @ResponseBody
     @RequestMapping(value = "select", method = RequestMethod.GET)
     public User select(Integer id, Integer pn) {
+
 //        分页查询对象：
 //        pn:当前页 size:一页多少数据
 //        Page<User> userPage  = new Page<>(pn, 2);

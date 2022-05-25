@@ -6,9 +6,15 @@ import com.bluemsun.entity.User;
 import com.bluemsun.mapper.UserMapper;
 import com.bluemsun.service.UserService;
 import com.bluemsun.utils.HttpClientUtil;
+import com.bluemsun.utils.JWTUtil;
+import com.bluemsun.utils.JedisUtil;
 import com.bluemsun.utils.WxUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
@@ -16,28 +22,35 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     UserMapper userMapper;
 
-//    JedisUtil jedisUtil;
+    JedisUtil jedisUtil;
 
+    @Transactional
     @Override
-    public User login(String code) throws Exception{
-        //请求地址
+    public Map login(String code) throws Exception{
+        // 请求地址
         String requestUrl = WxUtil.getWxServerUrl(code);
         // 发送请求
         String response = HttpClientUtil.getRequest(requestUrl);
-        //格式化JSON数据
+        // 格式化JSON数据
         User wxUser = JSONObject.parseObject(response, User.class);
-        System.out.println(wxUser);
-        System.out.println(response);
-        //
-        User user = userMapper.login(wxUser.getOpenId());
-        if (user == null) {
-            System.out.println("用户不存在");
-        } else {
-            if (!wxUser.getSessionKey().equals(user.getSessionKey())) {
-                System.out.println("更新sessionKey");
+        User user = null;
+        String token = null;
+        Map<String, Object> map = new HashMap<String, Object>();
+        if (wxUser != null) {
+            // 查询数据库里是否有此用户
+            user = userMapper.selectUserByOpenId(wxUser.getOpenId());
+            // 若没有，将该用户add到数据库
+            if (user == null) {
+                userMapper.addUser(wxUser);
             }
+            // 使用数据库的id来生成token(不使用openID)
+            String id = userMapper.selectUserByOpenId(wxUser.getOpenId()).getId().toString();
+            token = JWTUtil.generateToken(id, "bamwae", "wxUser");
+            jedisUtil.set("token:"+token,token);
+            map.put("user",user);
+            map.put("token",token);
         }
-        return wxUser;
+        return map;
     }
 
     @Override
