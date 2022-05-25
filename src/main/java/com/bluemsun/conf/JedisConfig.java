@@ -1,42 +1,35 @@
 package com.bluemsun.conf;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
+import lombok.extern.slf4j.Slf4j;
 
+@ConfigurationProperties(prefix = "spring.redis")
 @Configuration
-public class JedisConfig{
-//    private logger = LoggerFactory.getLogger(JedisConfig.class);
+@Slf4j
+@Data
+public class JedisConfig {
 
-    @Value("${spring.redis.host}")
     private String host;
-    @Value("${spring.redis.port}")
+
     private int port;
-    @Value("${spring.redis.password}")
-    private String password;
-    @Value("${spring.redis.timeout}")
+
     private int timeout;
-    @Value("${spring.redis.jedis.pool.max-active}")
-    private int maxActive;
-    @Value("${spring.redis.jedis.pool.max-idle}")
+
     private int maxIdle;
-//    @Value("${spring.redis.jedis.pool.max-wait}")
-//    private long maxWait;
-    @Value("${spring.redis.jedis.pool.max-idle}")
-    private int minIdle;
+
+    private String password;
 
     @Bean
-    public JedisPool jedisProvider() {
-        JedisPoolConfig config = new JedisPoolConfig();
-        config.setMaxIdle(maxIdle);
-//        config.setMaxWaitMillis(maxWait);
-        config.setMaxTotal(maxActive);
-        config.setMinIdle(minIdle);
-        JedisPool jedisPool = new JedisPool(config, host, port, timeout, null);
+    public JedisPool redisPoolFactory()  throws Exception{
+        System.out.println(host);
+        System.out.println(port);
+        System.out.println(timeout);
+        System.out.println(password);
+        JedisPool jedisPool = new JedisPool(host, port,null,password);
         return jedisPool;
     }
 }

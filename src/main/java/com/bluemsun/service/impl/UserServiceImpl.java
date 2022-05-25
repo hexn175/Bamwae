@@ -21,7 +21,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     UserMapper userMapper;
-
+    @Autowired
     JedisUtil jedisUtil;
 
     @Transactional
@@ -29,6 +29,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public Map login(String code) throws Exception{
         // 请求地址
         String requestUrl = WxUtil.getWxServerUrl(code);
+        System.out.println("code:====="+code);
         // 发送请求
         String response = HttpClientUtil.getRequest(requestUrl);
         // 格式化JSON数据
@@ -43,10 +44,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             if (user == null) {
                 userMapper.addUser(wxUser);
             }
+            user = userMapper.selectUserByOpenId(wxUser.getOpenId());
             // 使用数据库的id来生成token(不使用openID)
             String id = userMapper.selectUserByOpenId(wxUser.getOpenId()).getId().toString();
             token = JWTUtil.generateToken(id, "bamwae", "wxUser");
-            jedisUtil.set("token:"+token,token);
+            jedisUtil.set("token:"+user.getId(),token,0);
             map.put("user",user);
             map.put("token",token);
         }
@@ -56,6 +58,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public User selectUserById(Integer id) {
 //        System.out.println(jedisUtil.get("test"));
+        jedisUtil.set("test:"+"first","hello user111",1);
         return userMapper.selectById(id);
     }
 

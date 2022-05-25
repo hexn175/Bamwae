@@ -1,15 +1,13 @@
 package com.bluemsun.controller;
 
+import com.bluemsun.dto.UserDto;
 import com.bluemsun.entity.User;
 import com.bluemsun.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,9 +23,9 @@ public class UserController {
 
     @ResponseBody
     @PostMapping ( "/login")
-    public Map login(String code) throws Exception {
+    public Map login(@RequestBody UserDto userDto) throws Exception {
         Map map = new HashMap();
-        Map resMap = userService.login(code);
+        Map resMap = userService.login(userDto.getCode());
         if (resMap.get("user") != null) {
             map.put("user", resMap.get("user"));
             map.put("token", resMap.get("token"));
@@ -56,9 +54,5 @@ public class UserController {
 //        System.out.println("分页查询结果："+page.getRecords());
 //        System.out.println("数据总数："+page.getTotal());
         return userService.selectUserById(id);
-
-
-
-        //测试
     }
 }

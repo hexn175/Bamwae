@@ -3,8 +3,6 @@ package com.bluemsun.interceptor;
 import com.alibaba.fastjson.JSON;
 import com.bluemsun.utils.JWTUtil;
 import com.bluemsun.utils.JedisUtil;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwt;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -33,11 +31,11 @@ public class LoginInterceptor implements HandlerInterceptor {
             if (headerToken != null) {
                 try {
 //                    Claims verifyToken = JWTUtil.verifyToken(headerToken);
-                    if (jedisUtil.get("token:"+headerToken) != null) {
+                    if (jedisUtil.get("token:"+headerToken,0) != null) {
                         // 对token更新与验证
                         headerToken = JWTUtil.updateToken(headerToken);
                         //同时需要加入到redis里，设置过期时间30min
-                        jedisUtil.expire("token:"+headerToken,1800000);
+                        jedisUtil.expire("token:"+headerToken,1800000,0);
                     } else {
                         responseData = "The token has expired!";
                     }

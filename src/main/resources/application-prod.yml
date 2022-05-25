@@ -36,12 +36,6 @@ spring:
     host: 123.56.124.177
     port: 6379
     timeout: 10
-    jedis:
-      pool:
-        max-active: 8
-        max-idle: 8
-        max-wait: -1
-        min-idle: 0
 
 #日志配置,输出到文本，
 logging:
