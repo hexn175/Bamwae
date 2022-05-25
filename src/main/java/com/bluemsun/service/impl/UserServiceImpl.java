@@ -49,6 +49,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             String id = userMapper.selectUserByOpenId(wxUser.getOpenId()).getId().toString();
             token = JWTUtil.generateToken(id, "bamwae", "wxUser");
             jedisUtil.set("token:"+user.getId(),token,0);
+            jedisUtil.expire("token:"+user.getId(),1800000,0);
             map.put("user",user);
             map.put("token",token);
         }
