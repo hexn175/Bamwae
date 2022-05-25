@@ -25,10 +25,6 @@ public class JedisConfig {
 
     @Bean
     public JedisPool redisPoolFactory()  throws Exception{
-        System.out.println(host);
-        System.out.println(port);
-        System.out.println(timeout);
-        System.out.println(password);
         JedisPool jedisPool = new JedisPool(host, port,null,password);
         return jedisPool;
     }

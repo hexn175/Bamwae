@@ -46,6 +46,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             }
             user = userMapper.selectUserByOpenId(wxUser.getOpenId());
             // 使用数据库的id来生成token(不使用openID)
+            System.out.println("wxUser:=============="+wxUser);
             String id = userMapper.selectUserByOpenId(wxUser.getOpenId()).getId().toString();
             token = JWTUtil.generateToken(id, "bamwae", "wxUser");
             jedisUtil.set("token:"+user.getId(),token,0);

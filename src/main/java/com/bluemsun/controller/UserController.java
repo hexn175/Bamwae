@@ -21,6 +21,7 @@ public class UserController {
     UserService userService;
     Logger logger = LoggerFactory.getLogger(getClass());
 
+
     @ResponseBody
     @PostMapping ( "/login")
     public Map login(@RequestBody UserDto userDto) throws Exception {
@@ -31,7 +32,6 @@ public class UserController {
             map.put("token", resMap.get("token"));
             map.put("code",0);
             map.put("msg","登陆成功");
-            return resMap;
         } else {
             map.put("code", 1);
             map.put("msg", "登录失败");
