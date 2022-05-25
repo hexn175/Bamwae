@@ -37,7 +37,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = null;
         String token = null;
         Map<String, Object> map = new HashMap<String, Object>();
-        if (wxUser != null) {
+        if (wxUser.getOpenId() != null) {
             // 查询数据库里是否有此用户
             user = userMapper.selectUserByOpenId(wxUser.getOpenId());
             // 若没有，将该用户add到数据库
@@ -46,7 +46,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             }
             user = userMapper.selectUserByOpenId(wxUser.getOpenId());
             // 使用数据库的id来生成token(不使用openID)
-            System.out.println("wxUser:=============="+wxUser);
             String id = userMapper.selectUserByOpenId(wxUser.getOpenId()).getId().toString();
             token = JWTUtil.generateToken(id, "bamwae", "wxUser");
             jedisUtil.set("token:"+user.getId(),token,0);

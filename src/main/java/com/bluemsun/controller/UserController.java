@@ -32,6 +32,7 @@ public class UserController {
             map.put("token", resMap.get("token"));
             map.put("code",0);
             map.put("msg","登陆成功");
+
         } else {
             map.put("code", 1);
             map.put("msg", "登录失败");
