@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluemsun.mapper.QuestionMapper">
+
+    <select id="getQuestionById" resultType="com.bluemsun.entity.Question">
+        select * from tb_question where id=#{id};
+    </select>
+    <select id="getAllQuestionIdByCheckPoint" resultType="java.lang.Integer">
+        select question_id from tb_question_checkpoints where checkpoints_id=#{checkpointsId};
+    </select>
+
+</mapper>

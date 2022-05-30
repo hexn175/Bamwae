@@ -36,22 +36,10 @@ public class LoginInterceptor implements HandlerInterceptor {
                         // 对token更新与验证
                         headerToken = JWTUtil.updateToken(headerToken);
                         //同时需要加入到redis里，设置过期时间30min
-                        jedisUtil.expire("token:"+verifyToken.getId(),1800000,0);
+                        jedisUtil.expire("token:"+verifyToken.getId(),1800,0);
                     } else {
                         responseData = "The token has expired!";
                     }
-//                    if ((request.getRequestURI().contains("user") && verifyToken.getSubject().equals("BBSUser"))) {
-//                        //先去redis的token黑名单找，如果找到了：说明这个token即使未过期也不能使用
-//                        //                       如果未找到：再去判断他是否过期
-//                        if (jedisUtil.get("token:"+headerToken) == null) {
-//                            // 对token更新与验证
-//                            headerToken = JWTUtil.updateToken(headerToken);
-//                        } else {
-//                            responseData = "The token has expired!";
-//                        }
-//                    } else {
-//                        responseData = "Token is legitimate!";
-//                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -59,11 +47,6 @@ public class LoginInterceptor implements HandlerInterceptor {
                 // 如果没有token，返回错误信息
                 responseData = "There is no token!";
             }
-//            //如果是退出登录，则需要把返回的token加入黑名单
-//            if (request.getRequestURI().contains("logOut")) {
-////                jedisUtil.set("token:"+headerToken,headerToken);
-//                responseData = "The token has expired!";
-//            }
         }
         // 如果有错误信息
         if (responseData != null) {

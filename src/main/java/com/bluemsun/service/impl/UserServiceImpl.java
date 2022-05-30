@@ -3,6 +3,7 @@ package com.bluemsun.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bluemsun.entity.User;
+import com.bluemsun.mapper.UserCheckpointsMapper;
 import com.bluemsun.mapper.UserMapper;
 import com.bluemsun.service.UserService;
 import com.bluemsun.utils.HttpClientUtil;
@@ -29,7 +30,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public Map login(String code) throws Exception{
         // 请求地址
         String requestUrl = WxUtil.getWxServerUrl(code);
-        System.out.println("code:====="+code);
         // 发送请求
         String response = HttpClientUtil.getRequest(requestUrl);
         // 格式化JSON数据
@@ -49,7 +49,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             String id = userMapper.selectUserByOpenId(wxUser.getOpenId()).getId().toString();
             token = JWTUtil.generateToken(id, "bamwae", "wxUser");
             jedisUtil.set("token:"+user.getId(),token,0);
-            jedisUtil.expire("token:"+user.getId(),1800000,0);
+            jedisUtil.expire("token:"+user.getId(),1800,0);
             map.put("user",user);
             map.put("token",token);
         }

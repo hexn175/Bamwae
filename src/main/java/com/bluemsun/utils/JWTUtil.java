@@ -15,7 +15,7 @@ public class JWTUtil {
     // token加密时使用的秘钥，一旦得到此秘钥也就可以伪造token了
     public static String secretKey = "THEREISGOODKEY";
     // 代表token的有效时间(30min)
-    public final static long KEEP_TIME = 1800000;
+    public final static long KEEP_TIME = 1800;
 
     /**
      * JWT由3个部分组成,分别是 头部 Header,载荷 Payload一般是用户信息和声明,签证 Signature一般是密钥和签名
