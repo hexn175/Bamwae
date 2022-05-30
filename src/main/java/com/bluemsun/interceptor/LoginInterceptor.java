@@ -1,8 +1,8 @@
 package com.bluemsun.interceptor;
 
-import com.alibaba.fastjson.JSON;
 import com.bluemsun.utils.JWTUtil;
 import com.bluemsun.utils.JedisUtil;
+import com.google.gson.Gson;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,6 +22,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+        Gson gson = new Gson();
         String responseData = null;
         // 获取请求头中的token验证字符串
         String headerToken =null;
@@ -50,7 +51,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
         // 如果有错误信息
         if (responseData != null) {
-            response.getWriter().write(JSON.toJSONString(responseData));
+            response.getWriter().write(gson.toJson(responseData));
             return false;
         } else {
             // 将token加入返回的header中
