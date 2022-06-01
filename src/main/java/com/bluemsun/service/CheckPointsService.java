@@ -14,6 +14,7 @@ public interface CheckPointsService {
     //根据题目id获取题目
     Question getQuestion(Integer questionId);
     //获取所有该关卡的题目id
-    public List<Integer> getQuestionIdsOfCheckPoint(Integer id);
+    List<Integer> getQuestionIdsOfCheckPoint(Integer id);
+    //
 
 }

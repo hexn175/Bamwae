@@ -2,7 +2,6 @@ package com.bluemsun.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bluemsun.entity.User;
-import com.bluemsun.mapper.UserCheckpointsMapper;
 import com.bluemsun.mapper.UserMapper;
 import com.bluemsun.service.UserService;
 import com.bluemsun.utils.HttpClientUtil;

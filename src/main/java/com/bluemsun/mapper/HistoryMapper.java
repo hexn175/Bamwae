@@ -1,0 +1,14 @@
+package com.bluemsun.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.bluemsun.entity.History;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+@Mapper
+public interface HistoryMapper extends BaseMapper {
+
+    //根据id获取历史
+    History getHistoryById(@Param("id") Integer id);
+
+}
