@@ -1,9 +1,6 @@
 package com.bluemsun.utils;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
@@ -15,7 +12,7 @@ public class JWTUtil {
     // token加密时使用的秘钥，一旦得到此秘钥也就可以伪造token了
     public static String secretKey = "THEREISGOODKEY";
     // 代表token的有效时间(30min)
-    public final static long KEEP_TIME = 1800;
+    public final static long KEEP_TIME = 18000;
 
     /**
      * JWT由3个部分组成,分别是 头部 Header,载荷 Payload一般是用户信息和声明,签证 Signature一般是密钥和签名
@@ -79,8 +76,13 @@ public class JWTUtil {
      * @return Claims
      */
     public static Claims verifyToken(String token) {
-        Claims claims = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(secretKey))
-                .parseClaimsJws(token).getBody();
+        Claims claims;
+        try {
+            claims = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(secretKey))
+                    .parseClaimsJws(token).getBody();
+        } catch (ExpiredJwtException e) {
+            claims = e.getClaims();
+        }
         return claims;
     }
 

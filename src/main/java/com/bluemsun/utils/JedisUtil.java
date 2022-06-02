@@ -19,7 +19,7 @@ import java.util.Set;
 public class JedisUtil{
 
     @Autowired
-    private JedisPool jedisPool;
+    JedisPool jedisPool;
 
     /**
      * <p>
@@ -45,7 +45,8 @@ public class JedisUtil{
 
             log.error(e.getMessage());
         } finally {
-            returnResource(jedisPool, jedis);
+//            returnResource(jedisPool, jedis);
+            jedis.close();
         }
         return value;
     }
@@ -73,7 +74,8 @@ public class JedisUtil{
 
             log.error(e.getMessage());
         } finally {
-            returnResource(jedisPool, jedis);
+//            returnResource(jedisPool, jedis);
+            jedis.close();
         }
         return value;
     }
@@ -130,6 +132,7 @@ public class JedisUtil{
             return "0";
         } finally {
             returnResource(jedisPool, jedis);
+            jedis.close();
         }
     }
     /**
@@ -284,7 +287,8 @@ public class JedisUtil{
             log.error(e.getMessage());
             return 0L;
         } finally {
-            returnResource(jedisPool, jedis);
+//            returnResource(jedisPool, jedis);
+            jedis.close();
         }
     }
 
@@ -2282,24 +2286,5 @@ public class JedisUtil{
         if (jedis != null) {
             jedisPool.returnResource(jedis);
         }
-    }
-
-    // public static RedisUtil getRu() {
-    // return ru;
-    // }
-    //
-    // public static void setRu(RedisUtil ru) {
-    // RedisUtil.ru = ru;
-    // }
-
-    public static void main(String[] args) {
-		/*JedisPool jedisPool = new JedisPool(null,"localhost",6379,100,"123456");
-		Jedis jedis = jedisPool.getResource();
-		//r.get("", RedisConstants.datebase4);
-		jedis.select(RedisConstants.datebase4);
-		Set<String> str =  jedis.keys("*");
-		for (String string : str) {
-			System.out.println(string);
-		}*/
     }
 }

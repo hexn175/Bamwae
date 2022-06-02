@@ -2,7 +2,7 @@ package com.bluemsun.interceptor;
 
 import com.bluemsun.utils.JWTUtil;
 import com.bluemsun.utils.JedisUtil;
-import com.google.gson.Gson;
+import com.alibaba.fastjson.JSON;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,6 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        Gson gson = new Gson();
         String responseData = null;
         // 获取请求头中的token验证字符串
         String headerToken =null;
@@ -33,10 +32,11 @@ public class LoginInterceptor implements HandlerInterceptor {
             if (headerToken != null) {
                 try {
                     Claims verifyToken = JWTUtil.verifyToken(headerToken);
-                    if (jedisUtil.get("token:"+headerToken,0) != null) {
+                    if (jedisUtil.get("token:"+verifyToken.getId(),0) != null) {
                         // 对token更新与验证
                         headerToken = JWTUtil.updateToken(headerToken);
                         //同时需要加入到redis里，设置过期时间30min
+                        jedisUtil.set("token:"+verifyToken.getId(),headerToken,0);
                         jedisUtil.expire("token:"+verifyToken.getId(),1800,0);
                     } else {
                         responseData = "The token has expired!";
@@ -51,7 +51,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
         // 如果有错误信息
         if (responseData != null) {
-            response.getWriter().write(gson.toJson(responseData));
+            response.getWriter().write(JSON.toJSONString(responseData));
             return false;
         } else {
             // 将token加入返回的header中

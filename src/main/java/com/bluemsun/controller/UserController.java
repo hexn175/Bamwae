@@ -19,7 +19,7 @@ public class UserController {
 
     @Autowired
     UserService userService;
-    Logger logger = LoggerFactory.getLogger(getClass());
+//    Logger logger = LoggerFactory.getLogger(getClass());
 
 
     @ResponseBody

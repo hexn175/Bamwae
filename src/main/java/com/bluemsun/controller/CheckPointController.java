@@ -35,7 +35,7 @@ public class CheckPointController {
         Map map = new HashMap();
         if (token != null) {
             Claims claims = JWTUtil.verifyToken(token);
-            Integer userId = Integer.getInteger(claims.getId());
+            Integer userId = Integer.parseInt(claims.getId());
             List<Integer> idList = checkPointsService.getCheckPointsUnlockOfUser(userId);
             map.put("idList",idList);
             map.put("code",0);
@@ -55,7 +55,7 @@ public class CheckPointController {
     public Map unLockCheckPoint(HttpServletRequest request, @RequestBody CheckPointsDto checkPointsUnlockDto) {
         String token = request.getHeader("token");
         Claims claims = JWTUtil.verifyToken(token);
-        Integer userId = Integer.getInteger(claims.getId());
+        Integer userId = Integer.parseInt(claims.getId());
         checkPointsUnlockDto.setUserId(userId);
         Map map = new HashMap();
         Integer add = checkPointsService.add(checkPointsUnlockDto);
