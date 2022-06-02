@@ -8,7 +8,7 @@ import com.bluemsun.utils.HttpClientUtil;
 import com.bluemsun.utils.JWTUtil;
 import com.bluemsun.utils.JedisUtil;
 import com.bluemsun.utils.WxUtil;
-import com.google.gson.Gson;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,13 +27,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Transactional
     @Override
     public Map login(String code) throws Exception{
-        Gson gson = new Gson();
+//        Gson gson = new Gson();
         // 请求地址
         String requestUrl = WxUtil.getWxServerUrl(code);
         // 发送请求
         String response = HttpClientUtil.getRequest(requestUrl);
         // 格式化JSON数据
-        User wxUser = gson.fromJson(response,User.class);
+        User wxUser = JSONObject.parseObject(response,User.class);
         User user = null;
         String token = null;
         Map<String, Object> map = new HashMap<String, Object>();
