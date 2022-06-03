@@ -27,7 +27,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         String headerToken =null;
         // 检测当前页面，设置当前页不是登录页面时就对其进行拦截
         // 具体方法就是检测URL中有没有 login字符串
-        if (!request.getRequestURI().contains("login")) {
+        if (!request.getRequestURI().contains("login") && !request.getRequestURI().contains(".png") && !request.getRequestURI().contains(".jpg") && !request.getRequestURI().contains(".ttf")) {
             headerToken = request.getHeader("token");
             if (headerToken != null) {
                 try {
