@@ -14,6 +14,10 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
     public History getHistoryById(Integer id) {
-        return historyMapper.getHistoryById(id);
+        History history = historyMapper.getHistoryById(id);
+        history.setPart(historyMapper.getHistoryPartsById(id));
+        return history;
     }
+
+
 }

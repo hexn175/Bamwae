@@ -7,4 +7,9 @@
     <select id="getHistoryById" resultType="com.bluemsun.entity.History">
         select * from tb_history where id=#{id};
     </select>
+
+    <select id="getHistoryPartsById" resultType="java.lang.String">
+        select part from tb_history_part where history_id = #{id} order by id asc;
+    </select>
+
 </mapper>
